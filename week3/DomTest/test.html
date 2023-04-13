@@ -84,6 +84,10 @@
     const list = document.getElementById('list')
     const resetButton = document.querySelector('button[type="reset"]')
     
+    // 초기화 버튼을 누르면 리스트내용 삭제
+    resetButton.addEventListener('click', () => {
+      list.innerHTML = '';
+    });
     // form에 이벤트추가
     form.addEventListener('submit', (event)=>{
       event.preventDefault();
@@ -92,41 +96,39 @@
       // input에 값이 있는지 확인하고 li에 추가하기
       if(inputValue){
         const li = document.createElement('li')
+        const correctionBtn = document.createElement("button");
+        const deleteBtn  = document.createElement("button");
+
         li.textContent = inputValue
         li.classList.add('liclass','declass')
         list.appendChild(li)
+
+        correctionBtn.innerText = "수정";
+        li.appendChild(correctionBtn);
+
+        deleteBtn.innerText = "삭제";
+        li.appendChild(deleteBtn);
+
+        correctionBtn.addEventListener("click",correctFunc);
+        deleteBtn.addEventListener("click",deleteFunc);
       }
 
     })
-    // 초기화 버튼을 누르면 리스트내용 삭제
-    resetButton.addEventListener('click', () => {
-      list.innerHTML = '';
-    });
-    
-    // 문제. 6 실패!
-      // 각각 수정이벤트추가
-      // list.addEventListener('click', (event) => {
-      //   const li = event.target.;
-      //   if (li.classList.contains('liclass')) {
-      //     const editMode = li.getAttribute('contenteditable');
-      //     if (editMode === 'true') {
-      //       li.setAttribute('contenteditable', 'false');
-      //     } else {
-      //       li.setAttribute('contenteditable', 'true');
-      //       li.focus();
-      //     }
-      //   }
-      // });
-      
-      // 문제. 6
-    
-      // 수정버튼 만들기
-       
-      // 삭제버튼 만들기
 
-      // 수정함수
-
-      // 삭제함수
+    // 수정함수
+    function correctFunc(event) {
+      const li = event.target.parentElement;
+      const inputValue = prompt("Enter new text:", li.textContent);
+      if (inputValue) {
+        li.textContent = inputValue;
+      }
+    }
+    
+    // 삭제함수
+    function deleteFunc(event) {
+      const removedItem = event.target.parentElement;
+      removedItem.remove();
+    }
     </script>
   </body>
 </html>
