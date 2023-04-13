@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <style>
+      .content {
+        width: 1024px;
+      }
+
+      .disp {
+        height: 200px;
+        border: 1px solid black;
+      }
+
+      .tab_host {
+        display: flex;
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      .tab:hover {
+        cursor: pointer;
+      }
+
+      .tab {
+        width: 200px;
+        border: 1px solid #ededed;
+      }
+
+      #list {
+        border: 1px solid #ededed;
+      }
+    </style>
+  </head>
+  <body>
+      <p>
+        4. 아래의 입력창에 숫자가 입력되지 않도록 하고 길이 제한은 10자로 하시오. <br />숫자가 입력된다면 숫자가 입력되었다고 alert로
+        알려주시오
+      </p>
+      <input type="text" id="te_input" maxlength="9" placeholder="글자만 입력하세요." />
+
+      <p>
+        5.아래의 입력창에 입력 후 저장 버튼을 누르거나 엔터키를 누르면 입력한 내용이 아래의 list에 추가 되도록 하시오. <br />초기화 버튼을
+        누르면 list안의 모든 내용이 지워져야 함
+      </p>
+      <h5>6.추가된 내용을 "각 각" 수정 및 삭제 수 있게 변경하시오.</h5>
+      <form id="form">
+        <input type="text" value="" width="600" id="list_data" name="content" />
+        <button type="submit" id="send" value="show_view">저장</button>
+        <button type="reset">초기화</button>
+        <p>리스트</p>
+        <ul id="list">
+          <li class="liclass" class="declass">list</li>
+          <li class="liclass" class="declass">list</li>
+        </ul>
+      </form>
+    </div>
+    <script>
+      // 문제. 4
+      // 선언
+      const input = document.getElementById('te_input');
+
+      // input에 이벤트추가 
+      input.addEventListener('input', () => {
+        const value = input.value;
+        // /\d/ = 정규식표현 (입력값에 하나 이상의 숫자가 포함되면 true를 반환하는식)
+        const containsNumber = /\d/.test(value);
+      
+      // length가 10넘어가면 안들어가지게하기
+      if (value.length > 10) {
+        input.value = value.slice(0,10);
+      }
+
+      // 숫자가 들어가면 alert를 생성
+      if (containsNumber) {
+        alert("숫자를 입력하지마세요~");
+      }
+    });
+    
+    // 문제. 5
+    // 선언
+    const form = document.getElementById('form')
+    const list = document.getElementById('list')
+    const resetButton = document.querySelector('button[type="reset"]')
+    
+    // form에 이벤트추가
+    form.addEventListener('submit', (event)=>{
+      event.preventDefault();
+      const inputValue = document.getElementById('list_data').value
+      
+      // input에 값이 있는지 확인하고 li에 추가하기
+      if(inputValue){
+        const li = document.createElement('li')
+        li.textContent = inputValue
+        li.classList.add('liclass','declass')
+        list.appendChild(li)
+      }
+
+    })
+    // 초기화 버튼을 누르면 리스트내용 삭제
+    resetButton.addEventListener('click', () => {
+      list.innerHTML = '';
+    });
+    
+    // 문제. 6 실패!
+      // 각각 수정이벤트추가
+      // list.addEventListener('click', (event) => {
+      //   const li = event.target.;
+      //   if (li.classList.contains('liclass')) {
+      //     const editMode = li.getAttribute('contenteditable');
+      //     if (editMode === 'true') {
+      //       li.setAttribute('contenteditable', 'false');
+      //     } else {
+      //       li.setAttribute('contenteditable', 'true');
+      //       li.focus();
+      //     }
+      //   }
+      // });
+      
+      // 문제. 6
+    
+      // 수정버튼 만들기
+       
+      // 삭제버튼 만들기
+
+      // 수정함수
+
+      // 삭제함수
+    </script>
+  </body>
+</html>
