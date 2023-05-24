@@ -1,0 +1,93 @@
+{
+  "products": [
+    {
+      "productName": "구멍난 양말",
+      "productPrice": "1000",
+      "productNumber": "302012",
+      "productSize": "X, M, L",
+      "productRating": "4.5",
+      "productReview": "3",
+      "Review": [
+        {
+          "reviewer": "김철수",
+          "review": "좋아요",
+          "rating": "⭐⭐⭐⭐⭐"
+        },
+        {
+          "reviewer": "김영희",
+          "review": "별로에요",
+          "rating": "⭐☆☆☆☆"
+        },
+        {
+          "reviewer": "성공~",
+          "review": "별로에요",
+          "rating": "⭐☆☆☆☆"
+        }
+      ],
+      "productDetail": {
+        "productDetailInfo": "구멍난 양말 상세 정보 입니다."
+      }
+    },
+    {
+      "productName": "우리집 강아지가 가지고 놀던 양말",
+      "productPrice": "1000000",
+      "productNumber": "103852",
+      "productSize": "X, L",
+      "productRating": "3.4",
+      "productReview": "2",
+      "Review": [
+        {
+          "reviewer": "김철수",
+          "review": "좋아요",
+          "rating": "⭐⭐⭐⭐⭐"
+        },
+        {
+          "reviewer": "김영희",
+          "review": "별로에요",
+          "rating": "⭐⭐☆☆☆"
+        }
+      ],
+      "productDetail": {
+        "productDetailInfo": "product example -1, Detail"
+      }
+    },
+    {
+      "productName": "신발 (나이키와 아이다스의 콜라보)",
+      "productPrice": "900",
+      "productNumber": "289632",
+      "productSize": "M",
+      "productRating": "4.5",
+      "productReview": "5",
+      "Review": [
+        {
+          "reviewer": "김철수",
+          "review": "좋아요",
+          "rating": "⭐⭐⭐⭐⭐"
+        },
+        {
+          "reviewer": "룰",
+          "review": "별로에요",
+          "rating": "⭐⭐☆☆☆"
+        },
+        {
+          "reviewer": "루",
+          "review": "별로에요",
+          "rating": "⭐☆☆☆☆"
+        },
+        {
+          "reviewer": "랄",
+          "review": "별로에요",
+          "rating": "⭐☆☆☆☆"
+        },
+        {
+          "reviewer": "라",
+          "review": "별로에요",
+          "rating": "⭐☆☆☆☆"
+        }
+      ],
+      "productDetail": {
+        "productDetailInfo": "product example -2, Detail"
+      }
+    }
+  ]
+}

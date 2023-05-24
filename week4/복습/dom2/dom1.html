@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comment Section</title>
+  </head>
+  <body>
+    <div id="post-detail"></div>
+
+    <ul id="replies-list"></ul>
+
+    <div>
+      <input type="text" placeholder="Add a comment" />
+      <button id="plusBtn">Add</button>
+    </div>
+
+    <script>
+      import mockPost from "./mock.json";
+
+      const postDetailEl = document.getElementById("post-detail");
+      const repliesListEl = document.getElementById("replies-list");
+
+      // Get the post part of the mockpost into the post
+      const postHtml = `
+        <h2>${mockPost.post.title}</h2>
+        <p>${mockPost.post.content}</p>
+        <p>By ${mockPost.post.User.nickName}</p>
+      `;
+
+      // Get replies to comments
+      const repliesHtml = mockPost.post.Replies.map(
+        (reply) => `
+          <li>
+            <p>${reply.content}</p>
+            <p>By ${reply.User.nickName}</p>
+            <button class="edit-btn">Edit</button>
+            <button class="delete-btn">Delete</button>
+          </li>
+        `
+      ).join("");
+
+      // Put content into innerHTML
+      postDetailEl.innerHTML = postHtml;
+      repliesListEl.innerHTML = repliesHtml;
+
+      // Add event listener to add button
+      const plusBtn = document.getElementById("plusBtn");
+      plusBtn.addEventListener("click", () => {
+        const inputEl = document.querySelector("input");
+        const comment = inputEl.value;
+        inputEl.value = "";
+
+        // Create new comment element
+        const commentEl = document.createElement("li");
+        commentEl.innerHTML = `
+          <p>${comment}</p>
+          <p>By You</p>
+          <button class="edit-btn">Edit</button>
+          <button class="delete-btn">Delete</button>
+        `;
+
+        // Add event listener to edit button
+        const editBtn = commentEl.querySelector(".edit-btn");
+        editBtn.addEventListener("click", () => {
+          const contentEl = commentEl.querySelector("p:first-child");
+          const oldContent = contentEl.textContent;
+          contentEl.innerHTML = `
+            <input type="text" value="${oldContent}" />
+            <button class="save-btn">Save</button>
+          `;
+
+          // Add event listener to save button
+          const saveBtn = contentEl.querySelector(".save-btn");
+          saveBtn.addEventListener("click", () => {
+            const newContent = contentEl.querySelector("input").value;
+            contentEl.innerHTML = newContent;
+            contentEl.insertAdjacentHTML(
+              "afterend",
+              `
+              <button class="edit-btn">Edit</button>
+              <button class="delete-btn">Delete</button>
+              `
+            );
+          });
+        });
+
+        // Add event listener to delete button
+        const deleteBtn = commentEl.querySelector(".delete-btn");
+        deleteBtn.addEventListener("click", () => {
+          commentEl.remove();
+        });
+
+        repliesListEl.appendChild(commentEl);
+      });
+    </script>
+  </body>
+</html>

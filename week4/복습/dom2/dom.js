@@ -40,9 +40,13 @@ $plusBtn.addEventListener("click", () => {
   });
   const $editBtn = document.createElement("button");
   $editBtn.textContent = "수정";
-  $editBtn.addEventListener("click", () => {
+  $editBtn.addEventListener("click", (e) => {
+    //수정
+    //li의 html을 전부다 지워줌 수정 삭제 안남게
+    e.target.parentNode.innerHTML = "";
     const $input = document.createElement("input");
-    $input.value = $li.textContent;
+    //기존 input내용 comment를 불러오기
+    $input.value = comment;
     const $saveBtn = document.createElement("button");
     $saveBtn.textContent = "저장";
     $saveBtn.addEventListener("click", () => {
