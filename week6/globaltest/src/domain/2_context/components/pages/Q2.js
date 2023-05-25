@@ -1,12 +1,20 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import NavigateButton from "../../../../components/NavigateButton";
 import ContextQ2Form from "../atom/Q2/Form";
 import ContextQ2Form3 from "../atom/Q2/Form3";
+import { AppContext } from "../../../../store/3_context";
 
 const ContextQ2Page = () => {
-  const [userList, setUserList] = useState([
-    { id: 1, name: "홍길동", nickname: "히히" },
-  ]);
+  // const [userList, setUserList] = useState([
+  //   { id: 1, name: "홍길동", nickname: "히히" },
+  // ]);
+
+  const { state } = useContext(AppContext);
+
+  const onSubmit = () => {
+    const editedUsers = state.userList.filter((user) => user.isEdit);
+    console.log(editedUsers);
+  };
 
   return (
     <>
@@ -18,7 +26,7 @@ const ContextQ2Page = () => {
           marginTop: "32px",
         }}
       >
-        <button>SUBMIT</button>
+        <button onClick={onSubmit}>SUBMIT</button>
       </div>
       <NavigateButton isLastPage />
     </>
