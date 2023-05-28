@@ -6,7 +6,7 @@ import Sample3 from "./sample/Sample3_faker";
 function App() {
   return (
     <div className="App">
-      <Sample3 />
+      <Sample2 />
     </div>
   );
 }
