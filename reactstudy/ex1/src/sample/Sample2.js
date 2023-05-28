@@ -8,6 +8,7 @@ import img6 from "../img/6.jpg";
 import Slider from "react-slick";
 import React from "react";
 import "slick-carousel/slick/slick.css";
+import { CustomNextArrow, CustomPrevArrow } from "./Custom";
 
 export const Sample2 = () => {
   // function SampleNextArrow(props) {
@@ -42,6 +43,8 @@ export const Sample2 = () => {
     fade: true,
     centerMode: true,
     pauseOnHover: true,
+    nextArrow: <CustomNextArrow />,
+    prevArrow: <CustomPrevArrow />,
   };
 
   return (

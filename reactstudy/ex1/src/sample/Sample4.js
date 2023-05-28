@@ -10,6 +10,7 @@ import img4 from "../img/4.jpg";
 import img5 from "../img/5.jpg";
 import img6 from "../img/6.jpg";
 import "slick-carousel/slick/slick.css";
+import { CustomNextArrow, CustomPrevArrow } from "./Custom";
 
 const Sample4 = () => {
   const settings = {
@@ -23,18 +24,22 @@ const Sample4 = () => {
     fade: true,
     centerMode: true,
     pauseOnHover: true,
+    nextArrow: <CustomNextArrow />,
+    prevArrow: <CustomPrevArrow />,
   };
   return (
-    <S.Container>
-      <Slider {...settings}>
-        <S.Img src={img1} alt="Image 1" />
-        <S.Img src={img2} alt="Image 2" />
-        <S.Img src={img3} alt="Image 3" />
-        <S.Img src={img4} alt="Image 4" />
-        <S.Img src={img5} alt="Image 5" />
-        <S.Img src={img6} alt="Image 6" />
-      </Slider>
-    </S.Container>
+    <S.Box>
+      <S.Container>
+        <Slider {...settings}>
+          <S.Img src={img1} alt="Image 1" />
+          <S.Img src={img2} alt="Image 2" />
+          <S.Img src={img3} alt="Image 3" />
+          <S.Img src={img4} alt="Image 4" />
+          <S.Img src={img5} alt="Image 5" />
+          <S.Img src={img6} alt="Image 6" />
+        </Slider>
+      </S.Container>
+    </S.Box>
   );
 };
 export default Sample4;
@@ -51,7 +56,14 @@ const Container = styled.div`
   height: 422px;
   overflow: hidden; // 선을 넘어간 이미지들은 숨겨줍니다.
 `;
+const Box = styled.div`
+  width: 1000px;
+  margin: auto;
+  height: 500px;
+`;
+
 const S = {
   Img,
   Container,
+  Box,
 };

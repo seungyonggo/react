@@ -1,6 +1,7 @@
 import React from "react";
 import Slider from "react-slick";
 import styled from "styled-components";
+import { CustomNextArrow, CustomPrevArrow } from "./Custom";
 
 // const { faker } = require("@faker-js/faker");
 const { faker } = require("@faker-js/faker");
@@ -18,6 +19,8 @@ const Sample3 = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
+    nextArrow: <CustomNextArrow />,
+    prevArrow: <CustomPrevArrow />,
   };
 
   return (
@@ -33,7 +36,7 @@ const Sample3 = () => {
 
 export default Sample3;
 const Img = styled.img`
-  width: 650px;
+  width: 530px;
   height: 420px;
   overflow: hidden;
   border: 1px solid black;
