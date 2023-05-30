@@ -1,26 +1,37 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
-const Modal = ({ onAddToDo }) => {
+const Modal = ({ onUpload, onClose, forwardedRef }) => {
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedMonths, setSelectedMonths] = useState("");
   const [uploadedImage, setUploadedImage] = useState(null);
   const years = [2023, 2022, 2021, 2020];
   const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
   const onYearChange = (e) => {
     setSelectedYear(e.target.value);
   };
+
   const onMonthsChange = (e) => {
     setSelectedMonths(e.target.value);
   };
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    const imageUrl = URL.createObjectURL(file);
-    setUploadedImage(imageUrl);
+  const onFileUpload = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      const imageUrl = URL.createObjectURL(file);
+      setUploadedImage(imageUrl);
+      const modalData = {
+        selectedYear,
+        selectedMonths,
+        uploadedImage,
+      };
+      onUpload(modalData);
+      onClose();
+    }
   };
   return (
-    <Form onSubmit={onAddToDo}>
+    <Form ref={forwardedRef}>
       <Title>
         <Label>연도</Label>
         <CustomSelect value={selectedYear} onChange={onYearChange}>
@@ -33,9 +44,9 @@ const Modal = ({ onAddToDo }) => {
         <Label>월</Label>
 
         <CustomSelect value={selectedMonths} onChange={onMonthsChange}>
-          {months.map((months) => (
-            <CustomOption key={months} value={months}>
-              {months}
+          {months.map((month) => (
+            <CustomOption key={month} value={month}>
+              {month}
             </CustomOption>
           ))}
         </CustomSelect>
@@ -45,20 +56,20 @@ const Modal = ({ onAddToDo }) => {
           <CustomOption>일반</CustomOption>
         </CustomSelect>
 
-        <TitleButton>UPLOAD</TitleButton>
+        <TitleButton onClick={onFileUpload}>UPLOAD</TitleButton>
       </Title>
       <Content>
         <input placeholder="제목" name="title" />
         <textarea placeholder="내용" name="content" />
         {uploadedImage && <PreviewImage src={uploadedImage} alt="Uploaded" />}
-        <FileInput type="file" onChange={handleFileUpload} />
+        <input type="file" onChange={onFileUpload} />
+        <Button>확인</Button>
       </Content>
-      <Button>확인</Button>
     </Form>
   );
 };
-export default Modal;
 
+export default Modal;
 const Form = styled.form`
   width: 480px;
   position: absolute;
