@@ -30,6 +30,7 @@ const Modal = ({ onUpload, onClose, forwardedRef }) => {
       onClose();
     }
   };
+
   return (
     <Form ref={forwardedRef}>
       <Title>
