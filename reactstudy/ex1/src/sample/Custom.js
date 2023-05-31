@@ -8,7 +8,7 @@ const CustomNextArrow = (props) => {
         display: "block",
         color: "black",
         background: "red",
-        right: "50px",
+        right: "650px",
       }}
       onClick={onClick}
     />
@@ -27,7 +27,7 @@ const CustomPrevArrow = (props) => {
         display: "block",
         color: "black",
         background: "red",
-        left: "50px", // Adjust the position of the arrow as needed
+        left: "650px", // Adjust the position of the arrow as needed
       }}
       onClick={onClick}
     />
