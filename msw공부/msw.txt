@@ -1,0 +1,31 @@
+msw란
+Mock Service Worker
+네트워크 호출을 가로채는 API 모킹 라이브러리
+
+백엔드 구현이 완료 전 임시로 사용하는 가짜 API
+
+MSW 라이브러리 설치
+
+npm install msw --save-dev
+
+서비스 워커 코드 생성하기
+
+npx msw init public/ --save
+
+  public은 Create React App, NextJS, VueJS, Svelte.js, Vite 등 많은
+  라이브러리/프레임워크에서 public/을 그대로 사용할 수 있습니다.
+
+import { rest } from 'msw'
+export const handlers = [
+  rest.post('/login', null),
+  사용자가 로그인할 수 있도록 합니다.
+
+  rest.get('/user', null),
+  로그인한 사용자에 대한 정보를 반환합니다.
+]
+
+응답
+
+req 매칭 요청에 대한 정보
+res 조롱 응답을 생성하는 기능적 유틸리티
+ctx 모의 응답의 상태 코드, 헤더, 본문 등을 설정하는 데 도움이 되는 함수 그룹입니다.
