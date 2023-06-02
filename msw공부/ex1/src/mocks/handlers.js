@@ -4,7 +4,7 @@ export const handlers = [
   rest.get("/login", async (req, res, ctx) => {
     return res(
       // ctx.status(201), // 응답 상태 설정 없으면 200
-      ctx.delay(4000), // 응답 시간 설정
+      // ctx.delay(4000), // 응답 시간 설정 없으면 바로 가져온다.
       ctx.json({
         id: "f79e82e8-c34a-4dc7-a49e-9fadc0979fda",
         firstName: "John",
