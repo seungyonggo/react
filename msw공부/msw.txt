@@ -29,3 +29,15 @@ export const handlers = [
 req 매칭 요청에 대한 정보
 res 조롱 응답을 생성하는 기능적 유틸리티
 ctx 모의 응답의 상태 코드, 헤더, 본문 등을 설정하는 데 도움이 되는 함수 그룹입니다.
+
+정리
+
+msw는 백엔드 API가 완성되기전에 먼저 프론트엔드를 랜덤한 데이터로 구현해보는 방법 같다.
+
+설치 후
+세팅
+browser 세팅하기 브라우저 연동
+server 세팅하기 서버연동
+worker node, broswer에서 사용할 수 있도록 세팅, 브라우저에서는 Web Worker를 사용해서 req를 가로챈다.
+handlers mocking할 req들의 응답을 작성해놓는 곳
+끝
