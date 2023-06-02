@@ -1,9 +1,10 @@
 import { combineReducers } from "redux";
-import { todoSlice } from "./todo";
+import { todoSlice } from "./todo"; // todoSlice를 import
 
 export const rootReducer = combineReducers({
   todo: todoSlice.reducer,
 });
+// todo에 todoSlice.reducer를 넣어준다.
 
 /*
 모르겠다.... 왜 export가 오류가 나는지 정말 모르겠다... 이게 내가 틀린건가...
