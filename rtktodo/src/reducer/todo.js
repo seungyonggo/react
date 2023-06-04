@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 // 초기값 설정
 const initialState = {
@@ -10,12 +11,111 @@ const initialState = {
     err: null, // 에러 메세지, 초기값 null 요청하지 않음
   },
 };
+export const todoSlice = createSlice({
+  name: "todo",
+  initialState,
+  extraReducers: (builder) => {
+    // addTodo loading일때 어떻게 할지
+    builder.addCase(addTodo.pending, (state) => {
+      // loading 일 때?
+      state.addTodoState.loading = true;
+      state.addTodoState.done = false;
+      state.addTodoState.err = null;
+    });
+    // addTodo fulfilled
+    builder.addCase(addTodo.fulfilled, (state, action) => {
+      // thunk가 return한 값은 action.payload
+      state.addTodoState.loading = false;
+      state.addTodoState.done = true;
+      state.todos.unshift(action.payload);
+      state.addTodoState.err = null;
+    });
+    // addTodo rejected 실패했을때
+    builder.addCase(addTodo.rejected, (state, action) => {
+      //
+      state.addTodoState.loading = false;
+      state.addTodoState.done = true;
+      state.addTodoState.err = action.payload;
+    });
+    builder.addCase(updateTodo.pending, (state) => {
+      // Handle updateTodo pending state
+    });
+    builder.addCase(updateTodo.fulfilled, (state, action) => {
+      // Handle updateTodo fulfilled state
+    });
+    builder.addCase(updateTodo.rejected, (state, action) => {
+      // Handle updateTodo rejected state
+    });
+    builder.addCase(updateTodoEdit.pending, (state) => {
+      // Handle updateTodoEdit pending state
+    });
+    builder.addCase(updateTodoEdit.fulfilled, (state, action) => {
+      // Handle updateTodoEdit fulfilled state
+    });
+    builder.addCase(updateTodoEdit.rejected, (state, action) => {
+      // Handle updateTodoEdit rejected state
+    });
+    builder.addCase(deleteTodo.pending, (state) => {
+      // Handle deleteTodo pending state
+    });
+    builder.addCase(deleteTodo.fulfilled, (state, action) => {
+      // Handle deleteTodo fulfilled state
+    });
+    builder.addCase(deleteTodo.rejected, (state, action) => {
+      // Handle deleteTodo rejected state
+    });
+  },
+});
+
+export const addTodo = createAsyncThunk(
+  "todo/addTodo",
+  async ({ title, content }) => {
+    // msw로 만든 가상 백엔드와 데이터 통신
+    // 데이터 통신 -> client -> request
+    // method (get, post, delete, patch, put, header, options...)명은 -> server가 정해준다. -> rest api에 맡게 정해줘야 한다.
+    const res = await axios.post("/api/todo", { title, content });
+    // console.log(res);
+    // res.data --> 백엔드에서 response한 값은 data 키에 담긴다.
+    return res.data;
+    // action.payload
+  }
+);
+
+// export const addTodo = createAsyncThunk(
+//   "todo/addTodo",
+//   async ({ title, content }) => {
+//     const res = await axios.post("/api/todo", { title, content });
+//     return res.data;
+//   }
+// );
+
+export const updateTodo = createAsyncThunk(
+  "todo/updateTodo",
+  async ({ id, content }) => {
+    const res = await axios.put(`/api/todo/${id}`, { content });
+    return res.data;
+  }
+);
+
+export const updateTodoEdit = createAsyncThunk(
+  "todo/updateTodoEdit",
+  async ({ id, content, state }) => {
+    const res = await axios.put(`/api/todo/${id}`, { content, state });
+    return res.data;
+  }
+);
+
+export const deleteTodo = createAsyncThunk("todo/deleteTodo", async (id) => {
+  const res = await axios.delete(`/api/todo/${id}`);
+  return id;
+});
+
 /*
 todoSlice를 따로 export하지않으면 export가 되지않는다 따로
 밑에다가 export default todoSlice를 써도 사용 할 수가 없다.
 */
 // reducer 만들기 : rtk에서 createSlice import한다.
-export const todoSlice = createSlice({
+/*export const todoSlice = createSlice({
   name: "todo", // createSlice의 이름 설정
   initialState, // 초기값이 키와 값이 같으면 값 생략 가능
   reducers: {
@@ -50,7 +150,7 @@ export const todoSlice = createSlice({
 });
 
 export const { addTodo, updateTodo, updateTodoEdit, deleteTodo } =
-  todoSlice.actions;
+  todoSlice.actions;*/
 // 액션 자동생성 createAction 함수를 만들지 않아도 dispatch의 action명을 함수로 사용하여 매개변수에
 // 액션 객체를 전달받을 수 있다
 // ex) dispatch(addTodo(newTodo))

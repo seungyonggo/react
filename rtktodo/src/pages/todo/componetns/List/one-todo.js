@@ -5,6 +5,8 @@ import { faCheck, faBan, faPen } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import useInput from "../../../../hooks/use-input";
 import { useDispatch, useSelector } from "react-redux";
+// import { addTodo, updateTodo, updateTodoEdit, deleteTodo } from "reducer/todo";
+
 import { addTodo, updateTodo, updateTodoEdit, deleteTodo } from "reducer/todo";
 
 const OneTodo = ({ todo }) => {
