@@ -7,7 +7,12 @@ import useInput from "../../../../hooks/use-input";
 import { useDispatch, useSelector } from "react-redux";
 // import { addTodo, updateTodo, updateTodoEdit, deleteTodo } from "reducer/todo";
 
-import { addTodo, updateTodo, updateTodoEdit, deleteTodo } from "reducer/todo";
+import {
+  addTodo,
+  updateTodoState,
+  updateTodoEdit,
+  deleteTodo,
+} from "reducer/todo";
 
 const OneTodo = ({ todo }) => {
   const { id, state, title, content } = todo;
@@ -17,17 +22,31 @@ const OneTodo = ({ todo }) => {
   const todoList = useSelector((state) => state.todo.todos);
   const dispatch = useDispatch();
 
-  const handleTodoUpdate = (id, editContent) => {
-    if (!isEditMode) return setIsEditMode(true);
-    dispatch(
-      updateTodo({
-        id,
-        content: editContent,
-      })
-    );
-    setIsEditMode(false);
-  };
+  // const handleTodoUpdate = (id, editContent) => {
+  //   if (!isEditMode) return setIsEditMode(true);
+  //   dispatch(
+  //     updateTodo({
+  //       id,
+  //       content: editContent,
+  //     })
+  //   );
+  //   setIsEditMode(false);
+  // };
 
+  const handleTodoUpdate = (id, editContent) => {
+    if (!isEditMode) {
+      setIsEditMode(true);
+    } else {
+      dispatch(
+        updateTodoState({
+          id,
+          content: editContent,
+        })
+      );
+      setIsEditMode(false);
+    }
+  };
+  // 왜 수정은 안되고 수정에 작성한게 todo로 새로 만들어질까 정말 모르겠다... 하... 힘들다..
   const handleTodoEdit = (id) => {
     dispatch(
       updateTodoEdit({
