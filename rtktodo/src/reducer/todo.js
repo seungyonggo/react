@@ -10,7 +10,24 @@ const initialState = {
     done: false, // 성공 or 통신 끝, 초기 상태 요청하지 않았으므로 false
     err: null, // 에러 메세지, 초기값 null 요청하지 않음
   },
+  updateTodoState: {
+    // todo를 추가할 때의 상태 설정
+    loading: false,
+    done: false,
+    err: null,
+  },
+  updateTodoEdit: {
+    loading: false,
+    done: false,
+    err: null,
+  },
+  deleteTodoState: {
+    loading: false,
+    done: false,
+    err: null,
+  },
 };
+
 export const todoSlice = createSlice({
   name: "todo",
   initialState,
@@ -37,65 +54,113 @@ export const todoSlice = createSlice({
       state.addTodoState.done = true;
       state.addTodoState.err = action.payload;
     });
-    builder.addCase(updateTodo.pending, (state) => {
-      // Handle updateTodo pending state
+
+    // 수정로직
+    builder.addCase(updateTodoState.pending, (state) => {
+      state.updateTodoState.loading = true;
+      state.updateTodoState.done = false;
+      state.updateTodoState.err = null;
     });
-    builder.addCase(updateTodo.fulfilled, (state, action) => {
-      // Handle updateTodo fulfilled state
+
+    builder.addCase(updateTodoState.fulfilled, (state, action) => {
+      const updatedTodo = action.payload;
+      const updatedIndex = state.todos.findIndex(
+        (todo) => todo.id === parseInt(updatedTodo.id)
+        // parseInt로 updatedTodo.id를 문자열이 아니라 숫자로 형변환해주었다.
+        // todo.id는 숫자형태이고 그냥 updatedTodo.id는 Json으로 받아와서 문자열이기 때문이다.
+      );
+      console.log(typeof updatedTodo.id);
+      if (updatedIndex !== -1) {
+        state.todos[updatedIndex].content = updatedTodo.content;
+        state.todos[updatedIndex].state = updatedTodo.state;
+      }
+      state.updateTodoState.loading = false;
+      state.updateTodoState.done = true;
+      state.updateTodoState.err = null;
     });
-    builder.addCase(updateTodo.rejected, (state, action) => {
-      // Handle updateTodo rejected state
+
+    builder.addCase(updateTodoState.rejected, (state, action) => {
+      state.updateTodoState.loading = false;
+      state.updateTodoState.done = true;
+      state.updateTodoState.err = action.payload;
     });
+
+    // 체크로직
     builder.addCase(updateTodoEdit.pending, (state) => {
-      // Handle updateTodoEdit pending state
+      state.updateTodoEdit.loading = true;
+      state.updateTodoEdit.done = false;
+      state.updateTodoEdit.err = null;
     });
+
     builder.addCase(updateTodoEdit.fulfilled, (state, action) => {
-      // Handle updateTodoEdit fulfilled state
+      const updatedTodo = action.payload;
+      const updatedIndex = state.todos.findIndex(
+        (todo) => todo.id === parseInt(updatedTodo.id)
+        // parseInt로 updatedTodo.id를 문자열이 아니라 숫자로 형변환해주었다.
+        // todo.id는 숫자형태이고 그냥 updatedTodo.id는 Json으로 받아와서 문자열이기 때문이다.
+      );
+      if (updatedIndex !== -1) {
+        state.todos[updatedIndex] = updatedTodo;
+      }
+      state.updateTodoEdit.loading = false;
+      state.updateTodoEdit.done = true;
+      state.updateTodoEdit.err = null;
     });
+
     builder.addCase(updateTodoEdit.rejected, (state, action) => {
-      // Handle updateTodoEdit rejected state
+      state.updateTodoEdit.loading = false;
+      state.updateTodoEdit.done = true;
+      state.updateTodoEdit.err = action.payload;
     });
+
+    //삭제로직
     builder.addCase(deleteTodo.pending, (state) => {
-      // Handle deleteTodo pending state
+      state.deleteTodoState.loading = true;
+      state.deleteTodoState.done = false;
+      state.deleteTodoState.err = null;
     });
+
     builder.addCase(deleteTodo.fulfilled, (state, action) => {
-      // Handle deleteTodo fulfilled state
+      state.deleteTodoState.loading = false;
+      state.deleteTodoState.done = true;
+      const deletedTodoIndex = state.todos.findIndex(
+        (todo) => todo.id === action.payload
+      );
+      if (deletedTodoIndex !== -1) {
+        state.todos.splice(deletedTodoIndex, 1);
+      }
+      state.deleteTodoState.err = null;
     });
+
     builder.addCase(deleteTodo.rejected, (state, action) => {
-      // Handle deleteTodo rejected state
+      state.deleteTodoState.loading = false;
+      state.deleteTodoState.done = true;
+      state.deleteTodoState.err = action.payload;
     });
   },
 });
 
+export const {} = todoSlice.actions;
+
 export const addTodo = createAsyncThunk(
   "todo/addTodo",
   async ({ title, content }) => {
-    // msw로 만든 가상 백엔드와 데이터 통신
-    // 데이터 통신 -> client -> request
-    // method (get, post, delete, patch, put, header, options...)명은 -> server가 정해준다. -> rest api에 맡게 정해줘야 한다.
     const res = await axios.post("/api/todo", { title, content });
-    // console.log(res);
-    // res.data --> 백엔드에서 response한 값은 data 키에 담긴다.
-    return res.data;
-    // action.payload
-  }
-);
-
-// export const addTodo = createAsyncThunk(
-//   "todo/addTodo",
-//   async ({ title, content }) => {
-//     const res = await axios.post("/api/todo", { title, content });
-//     return res.data;
-//   }
-// );
-
-export const updateTodo = createAsyncThunk(
-  "todo/updateTodo",
-  async ({ id, content }) => {
-    const res = await axios.put(`/api/todo/${id}`, { content });
     return res.data;
   }
 );
+
+export const updateTodoState = createAsyncThunk(
+  "todo/updateTodoState",
+  async ({ id, content, state }) => {
+    const res = await axios.put(`/api/todo/${id}`, { content, state });
+    return res.data;
+  }
+);
+// 수정이 안돼!!!!!!!! 하 짜증난다~~~~~~~~~~~~~~왜 안되는걸까........밥먹고 고민해봐야겠다.
+// 예슬님한테 수정부분을 물어보아서 해결하였다.
+// fulfulled에서 action 부분에서 id를 확인했을때 나는 그냥 숫자가 같아서 문자열 일거라고 생각하지 못한게 에러가 난 이유이다
+// 앞으로는 좀 더 자세하기 console.log를 찍어보아야겠다.
 
 export const updateTodoEdit = createAsyncThunk(
   "todo/updateTodoEdit",
@@ -109,6 +174,19 @@ export const deleteTodo = createAsyncThunk("todo/deleteTodo", async (id) => {
   const res = await axios.delete(`/api/todo/${id}`);
   return id;
 });
+// export const addTodo = createAsyncThunk(
+//   "todo/addTodo",
+//   async ({ title, content }) => {
+//     // msw로 만든 가상 백엔드와 데이터 통신
+//     // 데이터 통신 -> client -> request
+//     // method (get, post, delete, patch, put, header, options...)명은 -> server가 정해준다. -> rest api에 맡게 정해줘야 한다.
+//     const res = await axios.post("/api/todo", { title, content });
+//     // console.log(res);
+//     // res.data --> 백엔드에서 response한 값은 data 키에 담긴다.
+//     return res.data;
+//     // action.payload
+//   }
+// );
 
 /*
 todoSlice를 따로 export하지않으면 export가 되지않는다 따로

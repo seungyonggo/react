@@ -38,3 +38,31 @@ export const deleteTodo = rest.delete("/api/todo/:id", (req, res, ctx) => {
 });
 
 // api 등록 -> msw 생성 -> msw 동작
+
+export const updateTodo = rest.put("/api/todo/:id", (req, res, ctx) => {
+  const { id } = req.params; // params는 경로 매개변수를 나타내는 속성 경로에 콜론 : 으로표시된 매개변수 값을 추출
+  const { state } = req.body; // body는 본문에 포함된 데이터를 나타내는 속성 주로 POST또는 PUT요청과 함께 전송되는 데이터를 읽어옴
+  const { content } = req.body;
+  return res(
+    ctx.status(200),
+    ctx.json({
+      // json은 id를 문자열로 받아서 숫자로 형변환해줘야한다.
+      id,
+      state,
+      content,
+    })
+  );
+});
+export const updateTodoEdit = rest.put("/api/todo/:id", (req, res, ctx) => {
+  const { id } = req.params;
+  const { state } = req.body;
+  const { content } = req.body;
+  return res(
+    ctx.status(200),
+    ctx.json({
+      id,
+      state,
+      content,
+    })
+  );
+});

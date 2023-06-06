@@ -6,7 +6,11 @@ import GlobalStyles from "./styles/global";
 import { Provider } from "react-redux";
 import { store } from "store/store";
 import router from "routes/routing";
+import { worker } from "__mock__/handler";
 function App() {
+  if (process.env.NODE_ENV === "development") {
+    worker.start();
+  }
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
